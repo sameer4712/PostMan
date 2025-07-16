@@ -35,16 +35,14 @@ const login = (req, res) => {
 }
 
 const sign = (req, res) => {
-   res.redirect('/')
+   res.render('sign-up')
 }
 
 const addUser = (req, res) => {
    res.render('add-user')
 }
 
-const admin = (req, res) => {
-   res.render('admin-dash')
-}
+
 const user = (async (req, res) => {
    const { name, email, password } = req.body;
    const addOne = new variable({
@@ -54,6 +52,7 @@ const user = (async (req, res) => {
    });
    await addOne.save()
    console.log(addOne)
+   res.redirect('/')
 
 })
 
@@ -70,7 +69,7 @@ const loginuser = async (req, res) => {
       if (check.password !== password) {
          res.send("NOt Matching Email and Password")
       }
-      res.redirect('/admin')
+      res.render('admin-dash')
 
    } catch (error) {
       res.send('wrong details')
@@ -84,10 +83,10 @@ const loginuser = async (req, res) => {
 const adminAddUser = (async (req, res) => {
    const adminAdd = await adminUsers.insertOne(req.body)
    console.log(adminAdd)
-   res.redirect('/admin')
+   res.render('admin-dash')
 })
 
-export { login, sign, admin, user, loginuser, addUser, adminAddUser }
+export { login, sign,  user, loginuser, addUser, adminAddUser }
 
 
 
