@@ -21,7 +21,7 @@ import { ObjectId } from 'mongodb'
 
 
 const erase = async (req, res) => {
-   const userid =req.params.id
+   const userid = req.params.id
    // const data = req.body
    const user = await adminUsers.findByIdAndDelete(userid)
    res.redirect('/admin')
@@ -39,7 +39,13 @@ const sign = (req, res) => {
 }
 
 const addUser = (req, res) => {
-   res.render('add-user')
+   if (req.session.admin) {
+      res.render('add-user')
+   }
+   else {
+      res.redirect("/")
+   }
+
 }
 
 
@@ -69,6 +75,12 @@ const loginuser = async (req, res) => {
       if (check.password !== password) {
          res.send("NOt Matching Email and Password")
       }
+      const sesson = {
+         email: check.email,
+         password: check.password,
+      }
+      req.session.admin = sesson;
+
       res.redirect('/admin')
 
    } catch (error) {
@@ -88,11 +100,52 @@ const adminAddUser = (async (req, res) => {
 
 
 const showUsers = async (req, res) => {
-   const users= await adminUsers.find()
-   res.render('admin-dash',{users})
+   if (req.session.admin) {
+      const users = await adminUsers.find()
+      res.render('admin-dash', { users })
+   }
+   else {
+      res.redirect('/')
+   }
+
 }
 
-export { login, sign,  user,erase, loginuser, addUser, adminAddUser,showUsers }
+const logout = (req, res) => {
+   req.session.destroy(() => {
+      console.log("destroid");
+      res.redirect('/')
+
+   })
+
+}
+
+const update = async (req, res) => {
+   const userid = req.params.id
+   // const data = req.body
+   const user = await adminUsers.findById(userid)
+   if (req.session.admin) {
+      res.render('edit', { user })
+   }
+   else{
+      res.redirect('/')
+   }
+}
+
+
+const updateUser = async (req, res) => {
+   const userid = req.params.id
+   await adminUsers.findByIdAndUpdate(userid, {
+      name: req.body.name,
+      email: req.body.email,
+      phone: req.body.phone
+   })
+
+   res.redirect('/admin')
+}
+
+
+
+export { login, sign, user, erase, loginuser, addUser, adminAddUser, showUsers, logout, update, updateUser }
 
 
 
