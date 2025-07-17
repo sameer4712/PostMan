@@ -1,6 +1,6 @@
 import variable from '../models/user.js'
 import adminUsers from '../models/adminUserSchema.js'
-// import { ObjectId } from 'mongodb'
+import { ObjectId } from 'mongodb'
 
 // const insert = async (req, res) => {
 //    const user = await variable.insertMany(req.body)
@@ -20,12 +20,12 @@ import adminUsers from '../models/adminUserSchema.js'
 // }
 
 
-// const erase = async (req, res) => {
-//    const userid = new ObjectId(req.params.id)
-//    // const data = req.body
-//    const user = await variable.deleteOne({ _id: userid })
-//    res.send(user)
-// }
+const erase = async (req, res) => {
+   const userid =req.params.id
+   // const data = req.body
+   const user = await adminUsers.findByIdAndDelete(userid)
+   res.redirect('/admin')
+}
 
 
 // login and sign up
@@ -69,7 +69,7 @@ const loginuser = async (req, res) => {
       if (check.password !== password) {
          res.send("NOt Matching Email and Password")
       }
-      res.render('admin-dash')
+      res.redirect('/admin')
 
    } catch (error) {
       res.send('wrong details')
@@ -83,13 +83,19 @@ const loginuser = async (req, res) => {
 const adminAddUser = (async (req, res) => {
    const adminAdd = await adminUsers.insertOne(req.body)
    console.log(adminAdd)
-   res.render('admin-dash')
+   res.redirect('/admin')
 })
 
-export { login, sign,  user, loginuser, addUser, adminAddUser }
+
+const showUsers = async (req, res) => {
+   const users= await adminUsers.find()
+   res.render('admin-dash',{users})
+}
+
+export { login, sign,  user,erase, loginuser, addUser, adminAddUser,showUsers }
 
 
 
 
 
-//  insert, find, update, erase,
+//  insert, find, update, 

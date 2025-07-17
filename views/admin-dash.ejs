@@ -24,7 +24,6 @@
       <table class="min-w-full divide-y divide-gray-200">
         <thead class="bg-gray-200">
           <tr>
-            <th class="px-6 py-3 text-left text-xl font-medium uppercase tracking-wider">_ID</th>
             <th class="px-6 py-3 text-left text-xl font-medium uppercase tracking-wider">Username</th>
             <th class="px-6 py-3 text-left text-xl font-medium uppercase tracking-wider">Email</th>
             <th class="px-6 py-3 text-left text-xl font-medium uppercase tracking-wider">Phone No.</th>
@@ -32,12 +31,17 @@
           </tr>
         </thead>
         <tbody id="userTableBody" class="bg-white divide-y divide-gray-200">
-          <tr class="text-xl ">
-            <td >1</td>
-            <td>Sameer</td>
-            <td>sameerpt@gmail.com</td>
-            <td>99778563412618</td>
+          <% users.forEach((user)=>{ %>
+          <tr class="text-xl">
+            <td class="pl-8"><%=user.name %></td>
+            <td class="pl-4"><%=user.email %></td>
+            <td class="pl-8"><%=user.phone %></td>
+            <td>
+              <a href="" class="bg-green-500 px-4 rounded">Edit</a>
+              <a href="/delete/<%=user._id %>" class="bg-red-500 px-3 rounded ml-4">Delete</a>
+            </td>
           </tr>
+          <% }) %>
 
         </tbody>
       </table>
