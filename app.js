@@ -1,8 +1,8 @@
 import express from 'express'
 import session from 'express-session'
 import mongoose from 'mongoose'
-import routes from './router/routes.js'
 import productRoutes from './router/productsRoutes.js'
+import routes from './router/routes.js'
 import { logout } from './controller/controller.js'
 // import variable from './models/user.js'
 
@@ -14,22 +14,17 @@ app.use(express.json())
 app.use(session(
     {
         secret: "key that will asign a session",
-        saveUninitialized: true,
+        saveUninitialized: false,
         resave: false
     }
 )
 )
-
-app.get('/dashboard', (req, res) => {
-    if (req.session.admin) {
-        res.render('admin-dash')
-    }
-    else {
-        res.redirect('/')
-    }
-
-
+app.use((req,res,next)=>{
+    res.locals.message =req.session.message;
+    delete req.session.message;
+    next()
 })
+
 app.get('/logout', logout)
 
 
