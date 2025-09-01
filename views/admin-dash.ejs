@@ -29,6 +29,7 @@
             <th class="px-6 py-3 text-left text-xl font-medium uppercase tracking-wider">Username</th>
             <th class="px-6 py-3 text-left text-xl font-medium uppercase tracking-wider">Email</th>
             <th class="px-6 py-3 text-left text-xl font-medium uppercase tracking-wider">Phone No.</th>
+            <th class="px-6 py-3 text-left text-xl font-medium uppercase tracking-wider">Status</th>
             <th class="px-6 py-3 text-left text-xl font-medium uppercase tracking-wider">Actions</th>
           </tr>
         </thead>
@@ -39,9 +40,10 @@
             <td class="pl-8 px-6 py-4"><%=user.name %></td>
             <td class="pl-4  px-6 py-4"><%=user.email %></td>
             <td class="pl-8  px-6 py-4"><%=user.phone %></td>
+            <td class="pl-8  px-6 py-4"><%=user.status %></td>
             <td>
               <a href="/update/<%=user._id %>" class="bg-green-400 px-6 rounded pt-2 pb-2">Edit</a>
-              <a href="/delete/<%=user._id %>" onclick="func()" class="bg-red-400 px-3 rounded ml-4 pt-2 pb-2">Delete</a>
+              <a href="/delete/<%=user._id %>" onclick="deleteuser()" class="bg-red-400 px-3 rounded ml-4 pt-2 pb-2">Delete</a>
             </td>
           </tr>
           <%} }) %>
@@ -72,7 +74,6 @@
             <td class="pl-8  px-6 py-4"><%=product.description %></td>
             <td>
               <a href="/updatepr/<%=product._id %>" class="bg-green-400 px-6 rounded pt-2 pb-2">Edit</a>
-
               <a href="/delete/<%=product._id %>" class="bg-red-400 px-3 rounded ml-4 pt-2 pb-2">Delete</a>
             </td>
           </tr>
@@ -84,12 +85,24 @@
   </div>
 
   <script>
-    function func() {
-      confirm("Are you sure")
+    const deleteuser = async (id) => {
+      const response = await fetch(`/delete/${id}`,{
+        method: "GET",
+      })
+      const resjson = await response.json();console.log(resjson);
+      
+      const con = confirm("are you sure?")
+      if (con == true) {
+        if (resjson.success == true) {
+          alert("User Deleted!")
+          window.location.reload()
+        }
+      } else {
+        alert("user not deleted!")
+      }
+
     }
-
-
-    
+   
   </script>
 </body>
 

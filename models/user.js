@@ -12,6 +12,18 @@ const userSchema = new mongoose.Schema({
     password:{
         type:String,
         required:true
+    },
+    phone:{
+        type:String,
+        required:true
+    },
+    role:{
+        type:Boolean,
+        default:false
+    },
+    status:{
+        type:String,
+        require:true
     }
 },
 {timestamps:true}
