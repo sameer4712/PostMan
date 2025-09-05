@@ -7,8 +7,6 @@ const router = express.Router()
 // import {erased} from '../controller/ProductControl.js'
 
 
-
-
 // router.post('/addItem',added)
 // router.get('/search',finding)
 // router.put('/updateprod/:id',updated)
