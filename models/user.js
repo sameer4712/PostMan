@@ -31,5 +31,4 @@ const userSchema = new mongoose.Schema({
 
 const variable = mongoose.model('people',userSchema)
 
-
 export default  variable
