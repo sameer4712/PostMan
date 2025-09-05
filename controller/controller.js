@@ -29,7 +29,6 @@ const erase = async (req, res) => {
    catch (err) {
       res.send(err)
    }
-
 }
 // login and sign up
 
